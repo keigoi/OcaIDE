@@ -272,6 +272,26 @@ public class LinkerVisitor implements IExecutablesVisitor {
 		stdout.append(cmd.getStdout());
 		stderr.append(cmd.getStderr());
 
+		if (stderr.length() == 0) {
+			refresh(exeFile);
+			if (exeFile.exists() && OcamlBuilder.JAVASCRIPT.equals(buildMode)) {
+				Misc.appendToOcamlConsole("Generating: " + exeFile);
+				String JSOFOCAML = OcamlPlugin.getJsOfOcamlFullPath();
+				if (JSOFOCAML.equals("")) {
+					OcamlPlugin.logError("error in LinkerVisitor:"
+							+ "runLinkingCommand : js_of_ocaml not found");
+					return false;
+				}
+				IPath jsPath = exeFile.getFullPath().removeFileExtension().addFileExtension("js");
+				runJsOfOcaml(JSOFOCAML, exeFile, jsPath, stdout, stderr, project);
+				if (stderr.length() == 0) {
+					IFile jsFile = project.getFile(jsPath.makeRelative());
+					if(jsFile!=null)
+						refresh(jsFile);
+				}
+			}
+		}
+
 		// Savoir s'il y a eu des erreurs
 		boolean noErrors = true;
 
@@ -288,19 +308,8 @@ public class LinkerVisitor implements IExecutablesVisitor {
 		}
 		// Sinon tout s'est bien passé, il faut mettre comme propriété
 		// persistante à l'exécutable généré le mode de compilation
-		else {
-			try {
-				exeFile.refreshLocal(IResource.DEPTH_ZERO, null);
-			} catch (CoreException e) {
-				OcamlPlugin.logError("error refreshing file " + exeFile.getName(), e);
-			}
-			if (exeFile.exists()) {
-				if(OcamlBuilder.JAVASCRIPT.equals(buildMode))
-					callJsOfOcaml();
-				Misc.setFileProperty(exeFile, OcamlBuilder.COMPIL_MODE, buildMode);
-			}
-
-		}
+		else
+			Misc.setFileProperty(exeFile, OcamlBuilder.COMPIL_MODE, buildMode);
 
 		String sProjectErrorsFound = null;
 		String sProjectWarningsFound = null;
@@ -321,9 +330,24 @@ public class LinkerVisitor implements IExecutablesVisitor {
 
 		return noErrors;
 	}
-	
-	private void callJsOfOcaml() {
-		// TODO
+
+	private void refresh(final IFile file) {
+		try {
+			file.refreshLocal(IResource.DEPTH_ZERO, null);
+		} catch (CoreException e) {
+			OcamlPlugin.logError("error refreshing file " + file.getName(), e);
+		}
+	}
+
+	private void runJsOfOcaml(String JSOFOCAML, IFile exeFile, IPath jsPath, StringBuffer stdout,
+			StringBuffer stderr, IProject project) {
+		String exePath = exeFile.getFullPath().makeRelative().toOSString();
+		String jsPath_ = jsPath.makeRelative().toOSString();
+		String[] command2 = { JSOFOCAML, exePath, "-o", jsPath_ };
+		CommandRunner cmd2 = new CommandRunner(command2, project.getWorkspace().getRoot()
+				.getLocation().toOSString());
+		stdout.append(cmd2.getStdout());
+		stderr.append(cmd2.getStderr());
 	}
 
 }
