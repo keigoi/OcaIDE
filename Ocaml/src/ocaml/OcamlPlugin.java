@@ -317,6 +317,11 @@ public class OcamlPlugin extends AbstractUIPlugin {
 		return instance.getPreferenceStore().getString(PreferenceConstants.P_LIB_PATH).trim();
 	}
 
+	/** Returns the ocaml library absolute path */
+	public static String getJsOfOcamlFullPath() {
+		return instance.getPreferenceStore().getString(PreferenceConstants.P_JSOFOCAML_PATH).trim();
+	}
+
 	/** Returns the comments color from the preferences */
 	public static RGB getCommentColor() {
 		return string2RGB(instance.getPreferenceStore().getString(PreferenceConstants.P_COMMENT_COLOR));

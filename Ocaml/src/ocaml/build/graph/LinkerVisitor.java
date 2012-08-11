@@ -295,6 +295,8 @@ public class LinkerVisitor implements IExecutablesVisitor {
 				OcamlPlugin.logError("error refreshing file " + exeFile.getName(), e);
 			}
 			if (exeFile.exists()) {
+				if(OcamlBuilder.JAVASCRIPT.equals(buildMode))
+					callJsOfOcaml();
 				Misc.setFileProperty(exeFile, OcamlBuilder.COMPIL_MODE, buildMode);
 			}
 
@@ -318,6 +320,10 @@ public class LinkerVisitor implements IExecutablesVisitor {
 		Misc.updateDecoratorManager();
 
 		return noErrors;
+	}
+	
+	private void callJsOfOcaml() {
+		// TODO
 	}
 
 }

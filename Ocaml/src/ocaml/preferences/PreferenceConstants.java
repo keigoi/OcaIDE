@@ -16,6 +16,7 @@ public class PreferenceConstants
 	public static final String P_OMAKE_PATH = "omakePathPreference";
 	public static final String P_PATH_CAMLP4 = "camlp4PathPreference";
 	public static final String P_PATH_OCAMLBUILD = "ocamlbuildPathPreference";
+	public static final String P_JSOFOCAML_PATH = "jsofocamlPathPreference";
 	
 	
 	public static final String P_COMMENT_COLOR = "commentColor";

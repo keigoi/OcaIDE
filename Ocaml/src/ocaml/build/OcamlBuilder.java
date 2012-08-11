@@ -62,7 +62,15 @@ public class OcamlBuilder extends IncrementalProjectBuilder {
 	public static final String BYTE_CODE = "byte-code";
 
 	/**
-	 * The compilation mode for the project: either NATIVE or BYTE_CODE
+	 * One of the values that can be taken by the persistent property COMPIL_MODE, that indicates that the
+	 * project must be compiled in "js-of-ocaml" mode
+	 * 
+	 * @see COMPIL_MODE
+	 */
+	public static final String JAVASCRIPT = "javascript";
+
+	/**
+	 * The compilation mode for the project: either NATIVE, BYTE_CODE or JAVASCRIPT
 	 */
 	public static final String COMPIL_MODE = "compil_mode";
 

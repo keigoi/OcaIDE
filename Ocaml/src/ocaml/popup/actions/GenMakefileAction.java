@@ -183,6 +183,7 @@ public class GenMakefileAction extends Object implements IObjectActionDelegate {
 				writer.write("#Is it native?" + CR);
 				writer.write(OPT + "= no");
 			}
+			// FIXME: cover JavaScript (js_of_ocaml) case
 
 			writer.write(CR);
 

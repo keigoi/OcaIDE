@@ -185,6 +185,7 @@ public class PathsPreferencePage extends FieldEditorPreferencePage implements IW
 
 		this.addField(new FileFieldEditor(PreferenceConstants.P_MAKE_PATH, "make:", otherGroup));
 		this.addField(new FileFieldEditor(PreferenceConstants.P_OMAKE_PATH, "omake:", otherGroup));
+		this.addField(new FileFieldEditor(PreferenceConstants.P_JSOFOCAML_PATH, "js_of_ocaml:", otherGroup));
 		this
 				.addField(new DirectoryFieldEditor(PreferenceConstants.P_LIB_PATH, "OCaml &lib path:",
 						otherGroup));

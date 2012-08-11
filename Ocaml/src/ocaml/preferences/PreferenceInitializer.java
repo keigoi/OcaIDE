@@ -164,6 +164,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 			String ocamlbuild = "";
 			String make = "";
 			String omake = "";
+			String jsofocaml = "";
 
 			String which = "";
 
@@ -285,6 +286,12 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 						file = new File(prefix + "/which");
 						if (file.exists() && file.isFile())
 							which = file.getPath();
+					}
+					
+					if (jsofocaml.equals("")) {
+						file = new File(prefix + "/js_of_ocaml");
+						if (file.exists() && file.isFile())
+							jsofocaml = file.getPath();
 					}
 				}
 

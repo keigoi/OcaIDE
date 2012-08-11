@@ -104,17 +104,19 @@ public class OcamlProjectProperties extends PropertyPage {
 		// Add compilation mode
 		String index = Misc.getProjectProperty(project, OcamlBuilder.COMPIL_MODE);
 		if (compilModeStored == null) {
-			if (index.equals(OcamlBuilder.NATIVE))
+			if (index.equals(OcamlBuilder.NATIVE) || index.equals(OcamlBuilder.JAVASCRIPT))
 				compilModeStored = index;
 			else
 				compilModeStored = OcamlBuilder.BYTE_CODE;
 		}
 		this.cCompilMode = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
-		this.cCompilMode.setItems(new String[] { OcamlBuilder.BYTE_CODE, OcamlBuilder.NATIVE });
+		this.cCompilMode.setItems(new String[] { OcamlBuilder.BYTE_CODE, OcamlBuilder.NATIVE, OcamlBuilder.JAVASCRIPT });
 		if (index.equals("") || index.equals(OcamlBuilder.BYTE_CODE))
 			this.cCompilMode.select(0);
-		else
+		else if(index.equals(OcamlBuilder.NATIVE))
 			this.cCompilMode.select(1);
+		else
+			this.cCompilMode.select(2);
 	}
 
 	/**
@@ -203,7 +205,8 @@ public class OcamlProjectProperties extends PropertyPage {
 			final java.util.List<String> projectFlags = OcamlBuilder.getResourceFlags(project);
 			if (projectFlags.remove("-g"))
 				OcamlBuilder.setResourceFlags(project, projectFlags);
-
+		} else if (ind == 2) {
+			newCompilMode = OcamlBuilder.JAVASCRIPT;
 		}
 		Misc.setProjectProperty(project, OcamlBuilder.COMPIL_MODE, newCompilMode);
 
